@@ -1,0 +1,184 @@
+2023-07-07 19:15:38,164 INFO    StreamThr :16747 [internal.py:wandb_internal():89] W&B internal server running at pid: 16747, started at: 2023-07-07 19:15:38.163888
+2023-07-07 19:15:38,166 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: status
+2023-07-07 19:15:38,176 INFO    WriterThread:16747 [datastore.py:open_for_write():85] open: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/run-mdkk5kx6.wandb
+2023-07-07 19:15:38,176 DEBUG   SenderThread:16747 [sender.py:send():369] send: header
+2023-07-07 19:15:38,177 DEBUG   SenderThread:16747 [sender.py:send():369] send: run
+2023-07-07 19:15:41,014 INFO    SenderThread:16747 [dir_watcher.py:__init__():211] watching files in: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files
+2023-07-07 19:15:41,015 INFO    SenderThread:16747 [sender.py:_start_run_threads():1103] run started: mdkk5kx6 with start time 1688732138.166834
+2023-07-07 19:15:41,017 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: summary_record
+2023-07-07 19:15:41,017 INFO    SenderThread:16747 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-07-07 19:15:41,020 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: check_version
+2023-07-07 19:15:41,021 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: check_version
+2023-07-07 19:15:41,317 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: run_start
+2023-07-07 19:15:41,323 DEBUG   HandlerThread:16747 [system_info.py:__init__():31] System info init
+2023-07-07 19:15:41,323 DEBUG   HandlerThread:16747 [system_info.py:__init__():46] System info init done
+2023-07-07 19:15:41,323 INFO    HandlerThread:16747 [system_monitor.py:start():181] Starting system monitor
+2023-07-07 19:15:41,323 INFO    SystemMonitor:16747 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-07-07 19:15:41,324 INFO    HandlerThread:16747 [system_monitor.py:probe():201] Collecting system info
+2023-07-07 19:15:41,324 INFO    SystemMonitor:16747 [interfaces.py:start():190] Started cpu monitoring
+2023-07-07 19:15:41,325 INFO    SystemMonitor:16747 [interfaces.py:start():190] Started disk monitoring
+2023-07-07 19:15:41,326 INFO    SystemMonitor:16747 [interfaces.py:start():190] Started gpu monitoring
+2023-07-07 19:15:41,327 INFO    SystemMonitor:16747 [interfaces.py:start():190] Started memory monitoring
+2023-07-07 19:15:41,328 INFO    SystemMonitor:16747 [interfaces.py:start():190] Started network monitoring
+2023-07-07 19:15:41,334 ERROR   gpu       :16747 [interfaces.py:monitor():144] Failed to sample metric: Not Supported
+2023-07-07 19:15:41,355 DEBUG   HandlerThread:16747 [system_info.py:probe():195] Probing system
+2023-07-07 19:15:41,361 DEBUG   HandlerThread:16747 [gitlib.py:_init_repo():53] git repository is invalid
+2023-07-07 19:15:41,361 DEBUG   HandlerThread:16747 [system_info.py:probe():240] Probing system done
+2023-07-07 19:15:41,362 DEBUG   HandlerThread:16747 [system_monitor.py:probe():210] {'os': 'Linux-5.15.0-76-generic-x86_64-with-debian-bullseye-sid', 'python': '3.7.6', 'heartbeatAt': '2023-07-07T12:15:41.356098', 'startedAt': '2023-07-07T12:15:38.141492', 'docker': None, 'cuda': None, 'args': ('--data_folder', '/home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/data/visuelle', '--wandb_run', 'train_sofore_2_1_v1', '--batch_size', '3', '--quick_debug'), 'state': 'running', 'program': 'train.py', 'codePath': 'train.py', 'host': 'ubuntu-G3-3590', 'username': 'ubuntu', 'executable': '/home/ubuntu/Documents/working/Hangers.AI/.venv/bin/python', 'cpu_count': 6, 'cpu_count_logical': 12, 'cpu_freq': {'current': 2600.001, 'min': 800.0, 'max': 2600.0}, 'cpu_freq_per_core': [{'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.01, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.0, 'min': 800.0, 'max': 2600.0}, {'current': 2600.002, 'min': 800.0, 'max': 2600.0}], 'disk': {'total': 147.26187133789062, 'used': 137.6496124267578}, 'gpu': 'NVIDIA GeForce GTX 1650', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce GTX 1650', 'memory_total': 4101898240}], 'memory': {'total': 7.579891204833984}}
+2023-07-07 19:15:41,362 INFO    HandlerThread:16747 [system_monitor.py:probe():211] Finished collecting system info
+2023-07-07 19:15:41,362 INFO    HandlerThread:16747 [system_monitor.py:probe():214] Publishing system info
+2023-07-07 19:15:41,362 DEBUG   HandlerThread:16747 [system_info.py:_save_pip():52] Saving list of pip packages installed into the current environment
+2023-07-07 19:15:41,362 DEBUG   HandlerThread:16747 [system_info.py:_save_pip():67] Saving pip packages done
+2023-07-07 19:15:41,362 DEBUG   HandlerThread:16747 [system_info.py:_save_code():89] Saving code
+2023-07-07 19:15:41,363 DEBUG   HandlerThread:16747 [system_info.py:_save_code():110] Saving code done
+2023-07-07 19:15:41,363 INFO    HandlerThread:16747 [system_monitor.py:probe():216] Finished publishing system info
+2023-07-07 19:15:41,375 DEBUG   SenderThread:16747 [sender.py:send():369] send: files
+2023-07-07 19:15:41,375 INFO    SenderThread:16747 [sender.py:_save_file():1354] saving file wandb-metadata.json with policy now
+2023-07-07 19:15:41,376 INFO    SenderThread:16747 [sender.py:_save_file():1354] saving file code/train.py with policy now
+2023-07-07 19:15:41,382 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: stop_status
+2023-07-07 19:15:41,383 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: stop_status
+2023-07-07 19:15:42,017 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_created():272] file/dir created: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/wandb-summary.json
+2023-07-07 19:15:42,017 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_created():272] file/dir created: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/requirements.txt
+2023-07-07 19:15:42,017 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_created():272] file/dir created: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/wandb-metadata.json
+2023-07-07 19:15:42,018 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_created():272] file/dir created: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/code/train.py
+2023-07-07 19:15:42,018 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_created():272] file/dir created: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/code
+2023-07-07 19:15:42,235 INFO    wandb-upload_0:16747 [upload_job.py:push():133] Uploaded file /tmp/tmp5mssvxcuwandb/zy1hmvhm-wandb-metadata.json
+2023-07-07 19:15:43,337 ERROR   gpu       :16747 [interfaces.py:monitor():144] Failed to sample metric: Not Supported
+2023-07-07 19:15:44,675 DEBUG   SenderThread:16747 [sender.py:send():369] send: telemetry
+2023-07-07 19:15:44,676 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: status_report
+2023-07-07 19:15:44,677 DEBUG   SenderThread:16747 [sender.py:send():369] send: telemetry
+2023-07-07 19:15:45,016 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_created():272] file/dir created: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/output.log
+2023-07-07 19:15:45,103 INFO    wandb-upload_1:16747 [upload_job.py:push():133] Uploaded file /tmp/tmp5mssvxcuwandb/pp26ar4c-code/train.py
+2023-07-07 19:15:45,339 ERROR   gpu       :16747 [interfaces.py:monitor():144] Failed to sample metric: Not Supported
+2023-07-07 19:15:46,084 DEBUG   SenderThread:16747 [sender.py:send():369] send: exit
+2023-07-07 19:15:46,084 INFO    SenderThread:16747 [sender.py:send_exit():574] handling exit code: 0
+2023-07-07 19:15:46,085 INFO    SenderThread:16747 [sender.py:send_exit():576] handling runtime: 4
+2023-07-07 19:15:46,085 INFO    SenderThread:16747 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-07-07 19:15:46,085 INFO    SenderThread:16747 [sender.py:send_exit():582] send defer
+2023-07-07 19:15:46,085 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,086 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 0
+2023-07-07 19:15:46,086 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,086 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 0
+2023-07-07 19:15:46,086 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 1
+2023-07-07 19:15:46,086 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,086 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 1
+2023-07-07 19:15:46,087 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,087 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 1
+2023-07-07 19:15:46,087 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 2
+2023-07-07 19:15:46,087 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,087 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 2
+2023-07-07 19:15:46,087 INFO    HandlerThread:16747 [system_monitor.py:finish():190] Stopping system monitor
+2023-07-07 19:15:46,087 DEBUG   SystemMonitor:16747 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-07-07 19:15:46,088 INFO    HandlerThread:16747 [interfaces.py:finish():202] Joined cpu monitor
+2023-07-07 19:15:46,088 DEBUG   SystemMonitor:16747 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-07-07 19:15:46,088 INFO    HandlerThread:16747 [interfaces.py:finish():202] Joined disk monitor
+2023-07-07 19:15:46,088 DEBUG   SystemMonitor:16747 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-07-07 19:15:46,160 INFO    HandlerThread:16747 [interfaces.py:finish():202] Joined gpu monitor
+2023-07-07 19:15:46,160 INFO    HandlerThread:16747 [interfaces.py:finish():202] Joined memory monitor
+2023-07-07 19:15:46,160 INFO    HandlerThread:16747 [interfaces.py:finish():202] Joined network monitor
+2023-07-07 19:15:46,161 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,161 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 2
+2023-07-07 19:15:46,161 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 3
+2023-07-07 19:15:46,161 DEBUG   SenderThread:16747 [sender.py:send():369] send: stats
+2023-07-07 19:15:46,162 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,162 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 3
+2023-07-07 19:15:46,162 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,162 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 3
+2023-07-07 19:15:46,163 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 4
+2023-07-07 19:15:46,163 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,163 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 4
+2023-07-07 19:15:46,163 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,163 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 4
+2023-07-07 19:15:46,163 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 5
+2023-07-07 19:15:46,163 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,164 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 5
+2023-07-07 19:15:46,164 DEBUG   SenderThread:16747 [sender.py:send():369] send: summary
+2023-07-07 19:15:46,164 INFO    SenderThread:16747 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-07-07 19:15:46,165 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,165 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 5
+2023-07-07 19:15:46,165 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 6
+2023-07-07 19:15:46,165 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,165 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 6
+2023-07-07 19:15:46,166 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,166 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 6
+2023-07-07 19:15:46,171 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: status_report
+2023-07-07 19:15:46,538 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 7
+2023-07-07 19:15:46,539 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:46,539 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 7
+2023-07-07 19:15:46,539 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:46,539 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 7
+2023-07-07 19:15:47,017 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/wandb-summary.json
+2023-07-07 19:15:47,018 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/output.log
+2023-07-07 19:15:47,018 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/config.yaml
+2023-07-07 19:15:47,085 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: poll_exit
+2023-07-07 19:15:48,684 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 8
+2023-07-07 19:15:48,684 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: poll_exit
+2023-07-07 19:15:48,685 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:48,685 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 8
+2023-07-07 19:15:48,685 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:48,685 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 8
+2023-07-07 19:15:48,686 INFO    SenderThread:16747 [job_builder.py:build():232] Attempting to build job artifact
+2023-07-07 19:15:48,686 INFO    SenderThread:16747 [job_builder.py:build():266] no source found
+2023-07-07 19:15:48,686 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 9
+2023-07-07 19:15:48,686 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:48,686 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 9
+2023-07-07 19:15:48,686 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:48,686 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 9
+2023-07-07 19:15:48,687 INFO    SenderThread:16747 [dir_watcher.py:finish():359] shutting down directory watcher
+2023-07-07 19:15:49,018 INFO    Thread-12 :16747 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/output.log
+2023-07-07 19:15:49,019 INFO    SenderThread:16747 [dir_watcher.py:finish():389] scan: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files
+2023-07-07 19:15:49,019 INFO    SenderThread:16747 [dir_watcher.py:finish():403] scan save: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/config.yaml config.yaml
+2023-07-07 19:15:49,019 INFO    SenderThread:16747 [dir_watcher.py:finish():403] scan save: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/requirements.txt requirements.txt
+2023-07-07 19:15:49,019 INFO    SenderThread:16747 [dir_watcher.py:finish():403] scan save: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/wandb-summary.json wandb-summary.json
+2023-07-07 19:15:49,020 INFO    SenderThread:16747 [dir_watcher.py:finish():403] scan save: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/output.log output.log
+2023-07-07 19:15:49,020 INFO    SenderThread:16747 [dir_watcher.py:finish():403] scan save: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/wandb-metadata.json wandb-metadata.json
+2023-07-07 19:15:49,020 INFO    SenderThread:16747 [dir_watcher.py:finish():403] scan save: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/code/train.py code/train.py
+2023-07-07 19:15:49,020 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 10
+2023-07-07 19:15:49,025 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:49,025 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 10
+2023-07-07 19:15:49,032 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:49,032 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 10
+2023-07-07 19:15:49,033 INFO    SenderThread:16747 [file_pusher.py:finish():159] shutting down file pusher
+2023-07-07 19:15:49,709 INFO    wandb-upload_3:16747 [upload_job.py:push():133] Uploaded file /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/requirements.txt
+2023-07-07 19:15:50,017 INFO    wandb-upload_4:16747 [upload_job.py:push():133] Uploaded file /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/wandb-summary.json
+2023-07-07 19:15:50,019 INFO    wandb-upload_2:16747 [upload_job.py:push():133] Uploaded file /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/config.yaml
+2023-07-07 19:15:52,086 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: keepalive
+2023-07-07 19:15:52,372 INFO    wandb-upload_5:16747 [upload_job.py:push():133] Uploaded file /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/files/output.log
+2023-07-07 19:15:52,573 INFO    Thread-11 :16747 [sender.py:transition_state():602] send defer: 11
+2023-07-07 19:15:52,573 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:52,573 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 11
+2023-07-07 19:15:52,574 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:52,574 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 11
+2023-07-07 19:15:52,574 INFO    SenderThread:16747 [file_pusher.py:join():164] waiting for file pusher
+2023-07-07 19:15:52,574 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 12
+2023-07-07 19:15:52,574 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:52,574 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 12
+2023-07-07 19:15:52,575 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:52,575 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 12
+2023-07-07 19:15:52,885 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 13
+2023-07-07 19:15:52,885 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:52,886 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 13
+2023-07-07 19:15:52,886 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:52,886 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 13
+2023-07-07 19:15:52,886 INFO    SenderThread:16747 [sender.py:transition_state():602] send defer: 14
+2023-07-07 19:15:52,887 DEBUG   SenderThread:16747 [sender.py:send():369] send: final
+2023-07-07 19:15:52,887 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: defer
+2023-07-07 19:15:52,887 INFO    HandlerThread:16747 [handler.py:handle_request_defer():170] handle defer: 14
+2023-07-07 19:15:52,887 DEBUG   SenderThread:16747 [sender.py:send():369] send: footer
+2023-07-07 19:15:52,888 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: defer
+2023-07-07 19:15:52,888 INFO    SenderThread:16747 [sender.py:send_request_defer():598] handle sender defer: 14
+2023-07-07 19:15:52,889 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: poll_exit
+2023-07-07 19:15:52,889 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: poll_exit
+2023-07-07 19:15:52,890 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: server_info
+2023-07-07 19:15:52,890 DEBUG   SenderThread:16747 [sender.py:send_request():396] send_request: server_info
+2023-07-07 19:15:52,894 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: get_summary
+2023-07-07 19:15:52,895 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: sampled_history
+2023-07-07 19:15:53,499 INFO    MainThread:16747 [wandb_run.py:_footer_history_summary_info():3467] rendering history
+2023-07-07 19:15:53,499 INFO    MainThread:16747 [wandb_run.py:_footer_history_summary_info():3499] rendering summary
+2023-07-07 19:15:53,499 INFO    MainThread:16747 [wandb_run.py:_footer_sync_info():3426] logging synced files
+2023-07-07 19:15:53,500 DEBUG   HandlerThread:16747 [handler.py:handle_request():144] handle_request: shutdown
+2023-07-07 19:15:53,500 INFO    HandlerThread:16747 [handler.py:finish():854] shutting down handler
+2023-07-07 19:15:53,890 INFO    WriterThread:16747 [datastore.py:close():298] close: /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_191538-mdkk5kx6/run-mdkk5kx6.wandb
+2023-07-07 19:15:54,499 INFO    SenderThread:16747 [sender.py:finish():1526] shutting down sender
+2023-07-07 19:15:54,499 INFO    SenderThread:16747 [file_pusher.py:finish():159] shutting down file pusher
+2023-07-07 19:15:54,499 INFO    SenderThread:16747 [file_pusher.py:join():164] waiting for file pusher

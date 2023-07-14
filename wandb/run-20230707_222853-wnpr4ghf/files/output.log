@@ -1,0 +1,24 @@
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loggers/wandb.py:396: UserWarning: There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse this run. If this is not desired, call `wandb.finish()` before instantiating `WandbLogger`.
+  "There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse"
+[34m[1mwandb[39m[22m: logging graph, to disable use `wandb.watch(log_graph=False)`
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py:479: LightningDeprecationWarning: Setting `Trainer(gpus=[0])` is deprecated in v1.7 and will be removed in v2.0. Please use `Trainer(accelerator='gpu', devices=[0])` instead.
+  f"Setting `Trainer(gpus={gpus!r})` is deprecated in v1.7 and will be removed"
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+  | Name                   | Type           | Params
+----------------------------------------------------------
+0 | image_encoder          | ImageEmbedder  | 23.5 M
+1 | dummy_encoder          | DummyEmbedder  | 4.4 K
+2 | text_encoder           | TextEmbedder   | 24.6 K
+3 | gtrend_encoder         | GTrendEmbedder | 562 K
+4 | static_feature_encoder | FusionNetwork  | 81.2 K
+----------------------------------------------------------
+672 K     Trainable params
+23.5 M    Non-trainable params
+24.2 M    Total params
+96.723    Total estimated model params size (MB)
+
+Epoch 0:   0%|                                                                                                                                                                                             | 0/100 [00:00<?, ?it/s]torch.Size([1, 2, 64])

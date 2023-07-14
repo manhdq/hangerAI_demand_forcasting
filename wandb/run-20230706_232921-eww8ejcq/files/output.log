@@ -1,0 +1,76 @@
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loggers/wandb.py:396: UserWarning: There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse this run. If this is not desired, call `wandb.finish()` before instantiating `WandbLogger`.
+  "There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse"
+[34m[1mwandb[39m[22m: logging graph, to disable use `wandb.watch(log_graph=False)`
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py:479: LightningDeprecationWarning: Setting `Trainer(gpus=[0])` is deprecated in v1.7 and will be removed in v2.0. Please use `Trainer(accelerator='gpu', devices=[0])` instead.
+  f"Setting `Trainer(gpus={gpus!r})` is deprecated in v1.7 and will be removed"
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+  | Name          | Type          | Params
+------------------------------------------------
+0 | image_encoder | ImageEmbedder | 23.5 M
+1 | text_encoder  | TextEmbedder  | 0
+------------------------------------------------
+0         Trainable params
+23.5 M    Non-trainable params
+23.5 M    Total params
+94.032    Total estimated model params size (MB)
+Traceback (most recent call last):
+  File "train.py", line 148, in <module>
+    run(args)
+  File "train.py", line 109, in run
+    val_dataloaders=test_loader)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 609, in fit
+    self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/call.py", line 38, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1112, in _run
+    results = self._run_stage()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1191, in _run_stage
+    self._run_train()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1204, in _run_train
+    self._run_sanity_check()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1276, in _run_sanity_check
+    val_loop.run()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/dataloader/evaluation_loop.py", line 152, in advance
+    dl_outputs = self.epoch_loop.run(self._data_fetcher, dl_max_batches, kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 121, in advance
+    batch = next(data_fetcher)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/utilities/fetching.py", line 184, in __next__
+    return self.fetching_function()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/utilities/fetching.py", line 265, in fetching_function
+    self._fetch_next_batch(self.dataloader_iter)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/utilities/fetching.py", line 280, in _fetch_next_batch
+    batch = next(iterator)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 628, in __next__
+    data = self._next_data()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 1333, in _next_data
+    return self._process_data(data)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 1359, in _process_data
+    data.reraise()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/_utils.py", line 543, in reraise
+    raise exception
+TypeError: Caught TypeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/_utils/worker.py", line 302, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/_utils/fetch.py", line 61, in fetch
+    return self.collate_fn(data)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/_utils/collate.py", line 265, in default_collate
+    return collate(batch, collate_fn_map=default_collate_fn_map)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/_utils/collate.py", line 143, in collate
+    return [collate(samples, collate_fn_map=collate_fn_map) for samples in transposed]  # Backwards compatibility.
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/_utils/collate.py", line 143, in <listcomp>
+    return [collate(samples, collate_fn_map=collate_fn_map) for samples in transposed]  # Backwards compatibility.
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/utils/data/_utils/collate.py", line 151, in collate
+    raise TypeError(default_collate_err_msg_format.format(elem_type))
+TypeError: default_collate: batch must contain tensors, numpy arrays, numbers, dicts or lists; found <class 'pandas.core.series.Series'>
+Sanity Checking: 0it [00:00, ?it/s]

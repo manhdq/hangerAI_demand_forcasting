@@ -1,0 +1,91 @@
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loggers/wandb.py:396: UserWarning: There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse this run. If this is not desired, call `wandb.finish()` before instantiating `WandbLogger`.
+  "There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse"
+[34m[1mwandb[39m[22m: logging graph, to disable use `wandb.watch(log_graph=False)`
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py:479: LightningDeprecationWarning: Setting `Trainer(gpus=[0])` is deprecated in v1.7 and will be removed in v2.0. Please use `Trainer(accelerator='gpu', devices=[0])` instead.
+  f"Setting `Trainer(gpus={gpus!r})` is deprecated in v1.7 and will be removed"
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+  | Name                   | Type           | Params
+----------------------------------------------------------
+0 | image_encoder          | ImageEmbedder  | 23.5 M
+1 | dummy_encoder          | DummyEmbedder  | 4.4 K
+2 | text_encoder           | TextEmbedder   | 24.6 K
+3 | gtrend_encoder         | GTrendEmbedder | 562 K
+4 | static_feature_encoder | FusionNetwork  | 81.2 K
+----------------------------------------------------------
+672 K     Trainable params
+23.5 M    Non-trainable params
+24.2 M    Total params
+96.723    Total estimated model params size (MB)
+Epoch 0:   0%|                                                                                                                                                                                              | 0/68 [00:00<?, ?it/s]
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py:1613: PossibleUserWarning: The number of training batches (34) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+  category=PossibleUserWarning,
+Traceback (most recent call last):
+  File "train.py", line 148, in <module>
+    run(args)
+  File "train.py", line 109, in run
+    val_dataloaders=test_loader)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 609, in fit
+    self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/call.py", line 38, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1112, in _run
+    results = self._run_stage()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1191, in _run_stage
+    self._run_train()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1214, in _run_train
+    self.fit_loop.run()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
+    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 379, in _optimizer_step
+    using_lbfgs=is_lbfgs,
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1356, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/core/module.py", line 1754, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/strategies/strategy.py", line 235, in optimizer_step
+    optimizer, model=model, optimizer_idx=opt_idx, closure=closure, **kwargs
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/plugins/precision/precision_plugin.py", line 119, in optimizer_step
+    return optimizer.step(closure=closure, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/fairseq/optim/adafactor.py", line 177, in step
+    loss = closure()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/plugins/precision/precision_plugin.py", line 105, in _wrap_closure
+    closure_result = closure()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py", line 1494, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/strategies/strategy.py", line 378, in training_step
+    return self.model.training_step(*args, **kwargs)
+  File "/home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/models/GTM.py", line 249, in training_step
+    forecasted_sales, _ = self.forward(category, color, fabric, temporal_features, gtrends, images)
+TypeError: cannot unpack non-iterable NoneType object

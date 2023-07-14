@@ -1,0 +1,107 @@
+{
+    "os": "Linux-5.15.0-76-generic-x86_64-with-debian-bullseye-sid",
+    "python": "3.7.6",
+    "heartbeatAt": "2023-07-07T16:54:45.847036",
+    "startedAt": "2023-07-07T16:54:42.385364",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--data_folder",
+        "/home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/data/visuelle",
+        "--wandb_run",
+        "train_sofore_2_1_v1",
+        "--batch_size",
+        "2",
+        "--quick_debug"
+    ],
+    "state": "running",
+    "program": "train.py",
+    "codePath": "train.py",
+    "host": "ubuntu-G3-3590",
+    "username": "ubuntu",
+    "executable": "/home/ubuntu/Documents/working/Hangers.AI/.venv/bin/python",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 2012.5594166666667,
+        "min": 800.0,
+        "max": 2600.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 836.128,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 2600.0
+        },
+        {
+            "current": 2599.998,
+            "min": 800.0,
+            "max": 2600.0
+        }
+    ],
+    "disk": {
+        "total": 147.26187133789062,
+        "used": 137.74431991577148
+    },
+    "gpu": "NVIDIA GeForce GTX 1650",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce GTX 1650",
+            "memory_total": 4101898240
+        }
+    ],
+    "memory": {
+        "total": 7.579891204833984
+    }
+}

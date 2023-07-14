@@ -1,0 +1,190 @@
+
+Sanity Checking DataLoader 0:   0%|                                                                                                                                                                          | 0/2 [00:00<?, ?it/s]
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/loggers/wandb.py:396: UserWarning: There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse this run. If this is not desired, call `wandb.finish()` before instantiating `WandbLogger`.
+  "There is a wandb run already in progress and newly created instances of `WandbLogger` will reuse"
+[34m[1mwandb[39m[22m: logging graph, to disable use `wandb.watch(log_graph=False)`
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py:479: LightningDeprecationWarning: Setting `Trainer(gpus=[0])` is deprecated in v1.7 and will be removed in v2.0. Please use `Trainer(accelerator='gpu', devices=[0])` instead.
+  f"Setting `Trainer(gpus={gpus!r})` is deprecated in v1.7 and will be removed"
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+  | Name                   | Type               | Params
+--------------------------------------------------------------
+0 | image_encoder          | ImageEmbedder      | 23.5 M
+1 | dummy_encoder          | DummyEmbedder      | 4.4 K
+2 | text_encoder           | TextEmbedder       | 24.6 K
+3 | gtrend_encoder         | GTrendEmbedder     | 562 K
+4 | static_feature_encoder | FusionNetwork      | 81.2 K
+5 | decoder                | TransformerDecoder | 50.0 K
+6 | decoder_fc             | Sequential         | 780
+--------------------------------------------------------------
+723 K     Trainable params
+23.5 M    Non-trainable params
+24.2 M    Total params
+Sanity Checking DataLoader 0: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:03<00:00,  1.67s/it]Validation MAE: 530.43207 Validation WAPE: 1132.0914 Validation Tracking Signal: 1117.3613 LR: None
+
+
+
+
+
+
+
+
+Epoch 0:  50%|██████████████████████████████████████████████████████████████████████████████                                                                              | 50/100 [00:17<00:17,  2.82it/s, loss=0.383, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 1:  53%|██████████████████████████████████████████████████████████████████████████████████▋                                                                         | 53/100 [00:22<00:19,  2.39it/s, loss=0.317, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 2:  50%|██████████████████████████████████████████████████████████████████████████████                                                                              | 50/100 [00:20<00:20,  2.41it/s, loss=0.233, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 3:  52%|█████████████████████████████████████████████████████████████████████████████▍                                                                       | 52/100 [00:23<00:21,  2.24it/s, loss=0.18, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 4:  51%|███████████████████████████████████████████████████████████████████████████▉                                                                         | 51/100 [00:22<00:21,  2.27it/s, loss=0.13, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 5:  53%|██████████████████████████████████████████████████████████████████████████████▍                                                                     | 53/100 [00:22<00:20,  2.32it/s, loss=0.133, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 6:  50%|█████████████████████████████████████████████████████████████████████████▌                                                                         | 50/100 [00:20<00:20,  2.47it/s, loss=0.0832, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 7:  50%|██████████████████████████████████████████████████████████████████████████                                                                          | 50/100 [00:20<00:20,  2.44it/s, loss=0.081, v_num=vqyx]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 8:  50%|██████████████████████████████████████████████████████████████████████████                                                                          | 50/100 [00:20<00:20,  2.46it/s, loss=0.066, v_num=vqyx]
+
+
+
+
+
+
+
+
+Epoch 9:   2%|██▉                                                                                                                                                 | 2/100 [00:01<01:31,  1.08it/s, loss=0.0671, v_num=vqyx]
+/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/pytorch_lightning/trainer/call.py:48: UserWarning: Detected KeyboardInterrupt, attempting graceful shutdown...
+
+Epoch 9:   4%|█████▉                                                                                                                                              | 4/100 [00:02<01:05,  1.47it/s, loss=0.0694, v_num=vqyx]/home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/log/GTM/GTM_train_sofore_2_1_v1---epoch=8---07-07-2023-23-54-38.ckpt

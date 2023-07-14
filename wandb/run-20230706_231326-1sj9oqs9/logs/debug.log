@@ -1,0 +1,27 @@
+2023-07-06 23:13:26,238 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Current SDK version is 0.15.4
+2023-07-06 23:13:26,238 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Configure stats pid to 18068
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Loading settings from /home/ubuntu/.config/wandb/settings
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Loading settings from /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/settings
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'train.py', 'program': 'train.py'}
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_init.py:_log_setup():507] Logging user logs to /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230706_231326-1sj9oqs9/logs/debug.log
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_init.py:_log_setup():508] Logging internal logs to /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230706_231326-1sj9oqs9/logs/debug-internal.log
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_init.py:init():547] calling init triggers
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_init.py:init():555] wandb.init called with sweep_config: {}
+config: {}
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_init.py:init():596] starting backend
+2023-07-06 23:13:26,239 INFO    MainThread:18068 [wandb_init.py:init():600] setting up manager
+2023-07-06 23:13:26,247 INFO    MainThread:18068 [backend.py:_multiprocessing_setup():108] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-07-06 23:13:26,252 INFO    MainThread:18068 [wandb_init.py:init():606] backend started and connected
+2023-07-06 23:13:26,270 INFO    MainThread:18068 [wandb_init.py:init():703] updated telemetry
+2023-07-06 23:13:26,271 INFO    MainThread:18068 [wandb_init.py:init():736] communicating run to backend with 60.0 second timeout
+2023-07-06 23:13:26,981 ERROR   MainThread:18068 [wandb_init.py:init():762] encountered error: It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 404: Not Found)
+2023-07-06 23:13:27,197 ERROR   MainThread:18068 [wandb_init.py:init():1170] It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 404: Not Found)
+Traceback (most recent call last):
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/wandb/sdk/wandb_init.py", line 1152, in init
+    run = wi.init()
+  File "/home/ubuntu/Documents/working/Hangers.AI/.venv/lib/python3.7/site-packages/wandb/sdk/wandb_init.py", line 768, in init
+    raise error
+wandb.errors.CommError: It appears that you do not have permission to access the requested resource. Please reach out to the project owner to grant you access. If you have the correct permissions, verify that there are no issues with your networking setup.(Error 404: Not Found)
+2023-07-06 23:13:28,199 WARNING MsgRouterThr:18068 [router.py:message_loop():77] message_loop has been closed

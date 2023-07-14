@@ -1,0 +1,29 @@
+2023-07-07 18:22:42,139 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Current SDK version is 0.15.4
+2023-07-07 18:22:42,140 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Configure stats pid to 13430
+2023-07-07 18:22:42,140 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Loading settings from /home/ubuntu/.config/wandb/settings
+2023-07-07 18:22:42,140 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Loading settings from /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/settings
+2023-07-07 18:22:42,140 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-07-07 18:22:42,141 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-07-07 18:22:42,141 INFO    MainThread:13430 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'train.py', 'program': 'train.py'}
+2023-07-07 18:22:42,141 INFO    MainThread:13430 [wandb_init.py:_log_setup():507] Logging user logs to /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_182242-kya8jujm/logs/debug.log
+2023-07-07 18:22:42,142 INFO    MainThread:13430 [wandb_init.py:_log_setup():508] Logging internal logs to /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/gtm_implement/wandb/run-20230707_182242-kya8jujm/logs/debug-internal.log
+2023-07-07 18:22:42,142 INFO    MainThread:13430 [wandb_init.py:init():547] calling init triggers
+2023-07-07 18:22:42,143 INFO    MainThread:13430 [wandb_init.py:init():555] wandb.init called with sweep_config: {}
+config: {}
+2023-07-07 18:22:42,143 INFO    MainThread:13430 [wandb_init.py:init():596] starting backend
+2023-07-07 18:22:42,143 INFO    MainThread:13430 [wandb_init.py:init():600] setting up manager
+2023-07-07 18:22:42,170 INFO    MainThread:13430 [backend.py:_multiprocessing_setup():108] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-07-07 18:22:42,192 INFO    MainThread:13430 [wandb_init.py:init():606] backend started and connected
+2023-07-07 18:22:42,223 INFO    MainThread:13430 [wandb_init.py:init():703] updated telemetry
+2023-07-07 18:22:42,227 INFO    MainThread:13430 [wandb_init.py:init():736] communicating run to backend with 60.0 second timeout
+2023-07-07 18:22:42,954 INFO    MainThread:13430 [wandb_run.py:_on_init():2176] communicating current version
+2023-07-07 18:22:43,364 INFO    MainThread:13430 [wandb_run.py:_on_init():2185] got version response upgrade_message: "wandb version 0.15.5 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2023-07-07 18:22:43,365 INFO    MainThread:13430 [wandb_init.py:init():787] starting run threads in backend
+2023-07-07 18:22:43,563 INFO    MainThread:13430 [wandb_run.py:_console_start():2155] atexit reg
+2023-07-07 18:22:43,563 INFO    MainThread:13430 [wandb_run.py:_redirect():2010] redirect: SettingsConsole.WRAP_RAW
+2023-07-07 18:22:43,569 INFO    MainThread:13430 [wandb_run.py:_redirect():2075] Wrapping output streams.
+2023-07-07 18:22:43,570 INFO    MainThread:13430 [wandb_run.py:_redirect():2100] Redirects installed.
+2023-07-07 18:22:43,575 INFO    MainThread:13430 [wandb_init.py:init():828] run started, returning control to user process
+2023-07-07 18:22:44,277 INFO    MainThread:13430 [wandb_watch.py:watch():51] Watching
+2023-07-07 18:23:04,284 WARNING MsgRouterThr:13430 [router.py:message_loop():77] message_loop has been closed

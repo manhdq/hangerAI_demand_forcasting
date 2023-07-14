@@ -1,0 +1,45 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    code_path: code/train.py
+    python_version: 3.7.6
+    cli_version: 0.15.4
+    framework: huggingface
+    huggingface_version: 4.30.2
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1688660553.546085
+    t:
+      1:
+      - 1
+      - 5
+      - 9
+      - 11
+      - 41
+      - 49
+      - 50
+      - 53
+      - 55
+      - 64
+      2:
+      - 1
+      - 5
+      - 9
+      - 11
+      - 41
+      - 49
+      - 50
+      - 53
+      - 55
+      - 64
+      3:
+      - 1
+      - 13
+      - 23
+      4: 3.7.6
+      5: 0.15.4
+      6: 4.30.2
+      8:
+      - 5
