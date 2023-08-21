@@ -1,3 +1,5 @@
+from thop import profile
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -71,6 +73,13 @@ class CrossAttnRNN(pl.LightningModule):
         )
 
         return [optimizer]
+
+    def get_flops_and_params(self):
+        X = torch.randn(1, 10, 2)
+        y = torch.randn(1, 10, 1)
+        images = torch.randn(1, 3, 299, 299)
+        macs, params = profile(self, inputs=(X, y, images))
+        return macs * 2 / 10**9, params / 10**6
 
     def training_step(self, train_batch, batch_idx):
         (X, y, _, _, _, _, _, _), images = train_batch

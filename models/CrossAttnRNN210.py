@@ -1,3 +1,5 @@
+from thop import profile
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -27,7 +29,7 @@ class CrossAttnRNN(pl.LightningModule):
         self.use_img = use_img
 
         # Encoders
-        self.image_encoder = ImageEncoder(embedding_dim, fine_tune=True)
+        self.image_encoder = ImageEncoder(embedding_dim, fine_tune=False)
         self.ts_embedder = nn.GRU(1, embedding_dim, batch_first=True)
 
         # Attention module
@@ -120,6 +122,13 @@ class CrossAttnRNN(pl.LightningModule):
 
         return [optimizer]
 
+    def get_flops_and_params(self):
+        X = torch.randn(1, 10, 2)
+        y = torch.randn(1, 10, 1)
+        images = torch.randn(1, 3, 299, 299)
+        macs, params = profile(self, inputs=(X, y, images))
+        return macs * 2 / 10**9, params / 10**6
+
     def on_train_epoch_start(self):
         self.use_teacher_forcing = True  # Allow for teacher forcing when training model
 
@@ -158,16 +167,16 @@ class CrossAttnRNN(pl.LightningModule):
         loss = F.mse_loss(item_sales, forecasted_sales)
         mae = F.l1_loss(rescaled_item_sales, rescaled_forecasted_sales)
         wape = 100 * torch.sum(torch.abs(rescaled_item_sales - rescaled_forecasted_sales)) / torch.sum(rescaled_item_sales)
+        ts = 100 * torch.sum(rescaled_item_sales - rescaled_forecasted_sales) / mae
 
         self.log("val_mae", mae)
         self.log("val_wWAPE", wape)
+        self.log("val_wTS", ts)
         self.log("val_loss", loss)
 
         print(
-            "Validation MAE:",
-            mae.detach().cpu().numpy(),
-            "Validation WAPE:",
-            wape.detach().cpu().numpy(),
-            "LR:",
-            self.optimizers().param_groups[0]["lr"],
+            "Validation MAE:", mae.detach().cpu().numpy(),
+            "Validation WAPE:", wape.detach().cpu().numpy(),
+            "Validation Tracking Signal:", ts.detach().cpu().numpy(),
+            "LR:", self.optimizers().param_groups[0]["lr"],
         )

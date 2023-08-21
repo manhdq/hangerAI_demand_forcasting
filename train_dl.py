@@ -95,6 +95,12 @@ def run(args):
         testset, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers
     )
 
+    # for data, imgs in trainloader:
+    #     print(data[2].shape)
+    #     print(imgs.shape)
+    #     exit()
+    # exit()
+
     print(f"Completed dataset loading procedure. Train batches: {len(trainloader)}, test batches: {len(testloader)}")
 
     # ####################################### Train and eval model #######################################
@@ -137,6 +143,11 @@ def run(args):
                 teacher_forcing_ratio=args.teacher_forcing_ratio
             )
 
+    # Get model flops and params
+    flops, params = model.get_flops_and_params()
+    print(f"- Model tflops: {flops:.4f} G")
+    print(f"- Model params: {params:.4f} M")
+
     # Define model saving procedure
     dt_string = datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
     model_savename = args.wandb_run
@@ -158,7 +169,7 @@ def run(args):
         max_epochs=args.epochs,
         check_val_every_n_epoch=1,
         logger=wandb_logger if args.use_wandb else None,
-        callbacks=[checkpoint_callback]
+        callbacks=[checkpoint_callback],
     )
 
     # Fit model
@@ -192,6 +203,7 @@ if __name__ == "__main__":
     parser.add_argument("--gpu_num", type=int, default=0)  ##TODO: modify this
     parser.add_argument("--use_teacher_forcing", action="store_true")
     parser.add_argument("--teacher_forcing_ratio", type=float, default=0.5)
+    parser.add_argument("--autoregressive", type=int, default=1)
 
     # Wandb arguments
     ##TODO: Learn wandb from this
