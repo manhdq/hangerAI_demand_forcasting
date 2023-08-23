@@ -44,12 +44,12 @@ class CrossAttnRNN(pl.LightningModule):
         self.image_encoder = ImageEncoder(fine_tune=False)
         self.temporal_encoder = TemporalEncoder(embedding_dim)
         self.attribute_encoder = AttributeEncoder(embedding_dim, cat_dict, col_dict, fab_dict, gpu_num)
-        self.gtrend_encoder = GTrendEncoder(out_len, hidden_dim, use_encoder_mask, trend_len, num_trends, gpu_num)
+        # self.gtrend_encoder = GTrendEncoder(out_len, hidden_dim, use_encoder_mask, trend_len, num_trends, gpu_num)
         self.static_feature_encoder = FusionNetwork(embedding_dim, hidden_dim, use_img, use_attribute)
         self.ts_embedder = nn.GRU(1, embedding_dim, batch_first=True)
 
-        # Attention module
-        self.img_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
+        # # Attention module
+        # self.img_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
 
         # Decoder
         self.decoder_gru = nn.GRU(
@@ -82,7 +82,7 @@ class CrossAttnRNN(pl.LightningModule):
         img_encoding = self.image_encoder(images)
         temporal_encoding = self.temporal_encoder(temporal_features)
         attribute_encoding = self.attribute_encoder(categories, colors, fabrics)
-        gtrend_encoding = self.gtrend_encoder(gtrends)
+        # gtrend_encoding = self.gtrend_encoder(gtrends)
         
         # Fuse static features together
         static_feature_fusion = self.static_feature_encoder(img_encoding, attribute_encoding, temporal_encoding)

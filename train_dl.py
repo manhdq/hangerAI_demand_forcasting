@@ -2,6 +2,7 @@ import os
 import argparse
 import pandas as pd
 import numpy as np
+import wandb
 from datetime import datetime
 
 import torch
@@ -164,9 +165,9 @@ def run(args):
     )
 
     if args.use_wandb:
-        wandb_logger = pl_loggers.WandbLogger(
-            projects=args.wandb_project, entity=args.wandb_entity, name=args.wandb_run
-        )
+        wandb.init(entity=args.wandb_entity, project=args.wandb_project, name=args.wandb_run)
+        wandb_logger = pl_loggers.WandbLogger()
+        wandb_logger.watch(model)
 
     trainer = pl.Trainer(
         gpus=[args.gpu_num],

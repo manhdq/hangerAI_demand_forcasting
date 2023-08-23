@@ -7,7 +7,9 @@ import pytorch_lightning as pl
 import torchvision.models as models
 from fairseq.optim.adafactor import Adafactor
 
-from .modules import ImageEncoder, AdditiveAttention
+from .modules import FusionNetwork, GTrendEncoder, ImageEncoder, TemporalEncoder, AttributeEncoder, \
+                    GTrendEncoder, FusionNetwork, PositionalEncoding, \
+                    AdditiveAttention
 
 
 class TSEmbedder(nn.Module):
@@ -69,53 +71,6 @@ class TemporalFeatureEncoder(nn.Module):
         temporal_embeddings = d_emb + w_emb + m_emb + y_emb
 
         return temporal_embeddings
-
-
-# ##TODO: Consistent with `ImageEncoder` in file `modules.py`
-# class ImageEncoder(nn.Module):
-#     def __init__(self, backbone='resnet18', embedding_dim=300):
-#         super(ImageEncoder, self).__init__()
-
-#         backbone_model = {
-#             'resnet18': models.resnet18,
-#             'resnet50': models.resnet50,
-#             'resnet101': models.resnet101,
-#             'inceptionv3': partial(models.inception_v3, aux_logits=True)
-#         }[backbone]
-
-#         self.fc_in_features = {
-#             'resnet18': 512,
-#             'resnet50': 2048,
-#             'resnet101': 2048,
-#             'inceptionv3': 2048,
-#         }[backbone]
-
-#         num_delete_last = {
-#             'resnet18': 2,
-#             'resnet50': 2,
-#             'resnet101': 2,
-#             'inceptionv3': 3,
-#         }[backbone]
-
-#         # print(list(backbone_model(pretrained=True).children()))
-#         # exit()
-
-#         # ft_ex_modules = list(models.resnet101(pretrained=True).children())
-#         # ft_ex_modules = list(backbone_model(pretrained=True).children())[:-num_delete_last]  # Eliminate AvgPool and FC
-#         # self.cnn = nn.Sequential(*ft_ex_modules)
-#         self.cnn = backbone_model(pretrained=True)
-#         for p in self.cnn.parameters():  # freeze all of the network
-#             p.requires_grad = False
-
-#         self.fc = nn.Linear(self.fc_in_features, embedding_dim)
-#         self.dropout = nn.Dropout(0.1)
-    
-#     def forward(self, x):
-#         x = self.cnn(x)
-#         x = x.view(-1, 64, self.fc_in_features)
-#         x = self.dropout(self.fc(x))
-
-#         return x
 
 
 class CrossAttnRNN(pl.LightningModule):
