@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+*.jpg
+*.pth
+*.ckpt
+*.pt
+wandb
