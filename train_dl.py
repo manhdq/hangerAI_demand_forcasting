@@ -105,17 +105,18 @@ def run(args):
             attention_dim=args.attention_dim,
             embedding_dim=args.embedding_dim,
             hidden_dim=args.hidden_dim,
-            num_trends=3,  # category, color, fabric
+            num_trends=args.num_trends,  # category, color, fabric
             cat_dict=cat_dict,
             col_dict=col_dict,
             fab_dict=fab_dict,
-            store_num=store_num,
+            trend_len=args.trend_len,
             use_trends=args.use_trends,
-            use_att=args.use_att,
+            use_attribute=args.use_attribute,
             use_img=args.use_img,
             use_teacher_forcing=args.use_teacher_forcing,
             teacher_forcing_ratio=args.teacher_forcing_ratio,
-            out_len=12,  # Demand predicts the full series in one go
+            out_len=args.output_len,  # Demand predicts the full series in one go
+            lr=args.lr,
         )
     else:
         if args.task_mode == 0:
@@ -135,6 +136,7 @@ def run(args):
                 embedding_dim=args.embedding_dim,
                 hidden_dim=args.hidden_dim,
                 use_img=args.use_img,
+                use_trends=args.use_trends,
                 use_attribute=args.use_attribute,
                 out_len=args.output_len,
                 cat_dict=cat_dict,
@@ -142,10 +144,9 @@ def run(args):
                 fab_dict=fab_dict,
                 trend_len=args.trend_len,
                 num_trends=args.num_trends,
-                use_encoder_mask=args.use_encoder_mask,
                 use_teacher_forcing=args.use_teacher_forcing,
                 teacher_forcing_ratio=args.teacher_forcing_ratio,
-                gpu_num=args.gpu_num
+                lr=args.lr,
             )
 
     # Get model flops and params
@@ -197,20 +198,21 @@ if __name__ == "__main__":
     # Model specific arguments
     parser.add_argument("--trend_len", type=int, default=52)
     parser.add_argument("--embedding_dim", type=int, default=128)
-    parser.add_argument("--attention_dim", type=int, default=512)
+    parser.add_argument("--attention_dim", type=int, default=256)
     parser.add_argument("--hidden_dim", type=int, default=128)
     parser.add_argument("--output_len", type=int, default=10)
-    parser.add_argument("--use_trends", type=bool, default=True)
-    parser.add_argument("--use_att", type=bool, default=True)
+    parser.add_argument("--use_trends", action="store_true")
+    parser.add_argument("--use_att", action="store_true")
     parser.add_argument("--num_trends", type=int, default=3)
-    parser.add_argument("--use_img", type=bool, default=True)
-    parser.add_argument("--use_attribute", type=bool, default=True)
+    parser.add_argument("--use_img", action="store_true")
+    parser.add_argument("--use_attribute", action="store_true")
     parser.add_argument("--task_mode", type=int, default=0, help="0-->2-1 - 1-->2-10")
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--gpu_num", type=int, default=0)  ##TODO: modify this
     parser.add_argument("--use_encoder_mask", type=int, default=1)
     parser.add_argument("--use_teacher_forcing", action="store_true")
     parser.add_argument("--teacher_forcing_ratio", type=float, default=0.5)
+    parser.add_argument("--lr", type=float, default=0.001)
 
     # Wandb arguments
     ##TODO: Learn wandb from this

@@ -34,7 +34,6 @@ class TemporalEncoder(nn.Module):
     def __init__(self, embedding_dim):
         super().__init__()
         self.embedding_dim = embedding_dim
-        self.embedding_dim = embedding_dim
         self.day_embedding = nn.Linear(1, embedding_dim)
         self.week_embedding = nn.Linear(1, embedding_dim)
         self.month_embedding = nn.Linear(1, embedding_dim)
@@ -53,35 +52,68 @@ class TemporalEncoder(nn.Module):
         return temporal_embeddings
 
 
-class AttributeEncoder(nn.Module):
-    def __init__(self, embedding_dim, cat_dict, col_dict, fab_dict, gpu_num):
-        super().__init__()
-        self.embedding_dim = embedding_dim
-        self.cat_dict = {v: k for k, v in cat_dict.items()}
-        self.col_dict = {v: k for k, v in col_dict.items()}
-        self.fab_dict = {v: k for k, v in fab_dict.items()}
-        self.word_embedder = pipeline("feature-extraction", model="bert-base-uncased")
-        self.fc = nn.Linear(768, embedding_dim)
-        self.dropout = nn.Dropout(0.1)
-        self.gpu_num = gpu_num
+# class AttributeEncoder(nn.Module):
+#     def __init__(self, embedding_dim, cat_dict, col_dict, fab_dict, gpu_num):
+#         super().__init__()
+#         self.embedding_dim = embedding_dim
+#         self.cat_dict = {v: k for k, v in cat_dict.items()}
+#         self.col_dict = {v: k for k, v in col_dict.items()}
+#         self.fab_dict = {v: k for k, v in fab_dict.items()}
+#         self.word_embedder = pipeline("feature-extraction", model="bert-base-uncased")
+#         self.fc = nn.Linear(768, embedding_dim)
+#         self.dropout = nn.Dropout(0.1)
+#         self.gpu_num = gpu_num
         
-    def forward(self, categories, colors, fabrics):
-        textual_description = [self.col_dict[colors.detach().cpu().numpy().tolist()[i]] + ' ' \
-                            + self.fab_dict[fabrics.detach().cpu().numpy().tolist()[i]] + ' ' \
-                            + self.cat_dict[categories.detach().cpu().numpy().tolist()[i]] for i in range(len(categories))]
+#     def forward(self, categories, colors, fabrics):
+#         textual_description = [self.col_dict[colors.detach().cpu().numpy().tolist()[i]] + ' ' \
+#                             + self.fab_dict[fabrics.detach().cpu().numpy().tolist()[i]] + ' ' \
+#                             + self.cat_dict[categories.detach().cpu().numpy().tolist()[i]] for i in range(len(categories))]
 
-        # Use BERT to extract features
-        word_embeddings = self.word_embedder(textual_description)
+#         # Use BERT to extract features
+#         word_embeddings = self.word_embedder(textual_description)
 
-        # BERT gives us embedding for [CLS] .. [EOS], which is why we inly average the embeddings in the range [1:-1]
-        # We're not fine tuning BERT and we dont wnat the noise coming from [CLS] or [EOS]
-        word_embeddings = [torch.FloatTensor(x[0][1:-1]).mean(axis=0) for x in word_embeddings]
-        word_embeddings = torch.stack(word_embeddings).to('cuda:'+str(self.gpu_num))
+#         # BERT gives us embedding for [CLS] .. [EOS], which is why we inly average the embeddings in the range [1:-1]
+#         # We're not fine tuning BERT and we dont wnat the noise coming from [CLS] or [EOS]
+#         word_embeddings = [torch.FloatTensor(x[0][1:-1]).mean(axis=0) for x in word_embeddings]
+#         word_embeddings = torch.stack(word_embeddings).to('cuda:'+str(self.gpu_num))
 
-        # Embed to our embedding space
-        word_embeddings = self.dropout(self.fc(word_embeddings))
+#         # Embed to our embedding space
+#         word_embeddings = self.dropout(self.fc(word_embeddings))
 
-        return word_embeddings
+#         return word_embeddings
+
+
+class AttributeEncoder(nn.Module):
+    def __init__(self, num_cat, num_col, num_fab, embedding_dim):
+        super(AttributeEncoder, self).__init__()
+        self.cat_embedder = nn.Embedding(num_cat, embedding_dim)
+        self.col_embedder = nn.Embedding(num_col, embedding_dim)
+        self.fab_embedder = nn.Embedding(num_fab, embedding_dim)
+        self.dropout = nn.Dropout(0.1)
+
+    def forward(self, cat, col, fab):
+        cat_emb = self.dropout(self.cat_embedder(cat))
+        col_emb = self.dropout(self.col_embedder(col))
+        fab_emb = self.dropout(self.fab_embedder(fab))
+        attribute_embeddings = cat_emb + col_emb + fab_emb
+
+        return attribute_embeddings
+
+
+class TSEncoder(nn.Module):
+    def __init__(self, input_dim, embedding_dim):
+        super(TSEncoder, self).__init__()
+        self.ts_encoder = nn.GRU(
+            input_size=input_dim,
+            hidden_size=embedding_dim,
+            num_layers=1,
+            batch_first=True,
+        )
+        self.dropout = nn.Dropout(0.1)
+
+    def forward(self, x):
+        x = self.dropout(self.ts_encoder(x)[0])
+        return x
 
 
 class PositionalEncoding(nn.Module):

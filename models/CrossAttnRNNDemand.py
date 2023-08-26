@@ -9,68 +9,7 @@ from fairseq.optim.adafactor import Adafactor
 
 from .modules import FusionNetwork, GTrendEncoder, ImageEncoder, TemporalEncoder, AttributeEncoder, \
                     GTrendEncoder, FusionNetwork, PositionalEncoding, \
-                    AdditiveAttention
-
-
-class TSEmbedder(nn.Module):
-    def __init__(self, input_dim, embedding_dim):
-        super(TSEmbedder, self).__init__()
-        self.ts_embedder = nn.GRU(
-            input_size=input_dim,
-            hidden_size=embedding_dim,
-            num_layers=1,
-            batch_first=True,
-        )
-        self.dropout = nn.Dropout(0.1)
-
-    def forward(self, x):
-        x = self.dropout(self.ts_embedder(x)[0])
-        return x
-
-
-class AttributeEncoder(nn.Module):
-    def __init__(self, num_cat, num_col, num_fab, num_store, embedding_dim):
-        super(AttributeEncoder, self).__init__()
-        self.cat_embedder = nn.Embedding(num_cat, embedding_dim)
-        self.col_embedder = nn.Embedding(num_col, embedding_dim)
-        self.fab_embedder = nn.Embedding(num_fab, embedding_dim)
-        self.store_embedder = nn.Embedding(num_store, embedding_dim)
-        self.dropout = nn.Dropout(0.1)
-
-    def forward(self, cat, col, fab, store):
-        cat_emb = self.dropout(self.cat_embedder(cat))
-        col_emb = self.dropout(self.col_embedder(col))
-        fab_emb = self.dropout(self.fab_embedder(fab))
-        store_emb = self.dropout(self.store_embedder(store))
-        attribute_embeddings = cat_emb + col_emb + fab_emb + store_emb
-
-        return attribute_embeddings
-
-    
-class TemporalFeatureEncoder(nn.Module):
-    def __init__(self, embedding_dim):
-        super().__init__()
-        self.embedding_dim = embedding_dim
-        self.day_embedding = nn.Linear(1, embedding_dim)
-        self.week_embedding = nn.Linear(1, embedding_dim)
-        self.month_embedding = nn.Linear(1, embedding_dim)
-        self.year_embedding = nn.Linear(1, embedding_dim)
-        self.dropout = nn.Dropout(0.1)
-
-    def forward(self, temporal_features):
-        # Temporal dummy variables (day, week, month, year)
-        ##TODO: Should we replace `MinMaxScaler` by `OneHotEncoding`, check `dataset.py`
-        d = temporal_features[:, 0].unsqueeze(1)
-        w = temporal_features[:, 1].unsqueeze(1)
-        m = temporal_features[:, 2].unsqueeze(1)
-        y = temporal_features[:, 3].unsqueeze(1)
-        d_emb = self.dropout(self.day_embedding(d))
-        w_emb = self.dropout(self.day_embedding(w))
-        m_emb = self.dropout(self.day_embedding(m))
-        y_emb = self.dropout(self.day_embedding(y))
-        temporal_embeddings = d_emb + w_emb + m_emb + y_emb
-
-        return temporal_embeddings
+                    TSEncoder, AdditiveAttention
 
 
 class CrossAttnRNN(pl.LightningModule):
@@ -81,14 +20,15 @@ class CrossAttnRNN(pl.LightningModule):
                 cat_dict,
                 col_dict,
                 fab_dict,
-                store_num,
+                trend_len,
                 num_trends,
                 use_img,
-                use_att,
+                use_attribute,
                 use_trends,
                 out_len=12,
                 use_teacher_forcing=False,
-                teacher_forcing_ratio=0.5):
+                teacher_forcing_ratio=0.5,
+                lr=0.001):
         super().__init__()
         self.teacher_forcing_ratio = teacher_forcing_ratio
         self.use_teacher_forcing = use_teacher_forcing
@@ -96,28 +36,33 @@ class CrossAttnRNN(pl.LightningModule):
         self.hidden_dim = hidden_dim
         self.embedding_dim = embedding_dim
         self.use_img = use_img
-        self.use_att = use_att
+        self.use_attribute = use_attribute
         self.use_trends = use_trends
+        self.lr = lr
 
-        # Encoder(s)
-        self.trend_encoder = TSEmbedder(num_trends, embedding_dim)
-        self.temp_encoder = TemporalFeatureEncoder(embedding_dim)
-        self.image_encoder = ImageEncoder(embedding_dim, fine_tune=True)
+        # Encoders
+        self.trend_encoder = TSEncoder(num_trends, embedding_dim)
+        self.image_encoder = ImageEncoder(fine_tune=False)
+        self.temporal_encoder = TemporalEncoder(embedding_dim)
         self.attribute_encoder = AttributeEncoder(
-            len(cat_dict) + 1,  ##TODO: Why plus 1?
+            len(cat_dict) + 1,
             len(col_dict) + 1,
             len(fab_dict) + 1,
-            store_num + 1,
-            embedding_dim,
+            embedding_dim
         )
 
+        self.img_pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.img_linear = nn.Linear(2048, embedding_dim)
+
+        self.static_feature_encoder = FusionNetwork(embedding_dim, hidden_dim, use_img, use_attribute)
+        self.ts_embedder = nn.GRU(1, embedding_dim, batch_first=True)
+
         # Attention modules
-        self.ts_self_attention = nn.MultiheadAttention(embedding_dim, num_heads=4, dropout=0.1)
-        self.ts_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
-        self.trend_linear = nn.Linear(52*attention_dim, embedding_dim)
-        self.img_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
+        self.trend_self_attention = nn.MultiheadAttention(embedding_dim, num_heads=4, dropout=0.1)
+        self.trend_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
+        self.trend_linear = nn.Linear(trend_len*attention_dim, embedding_dim)
         self.multimodal_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
-        self.multimodal_embedder = nn.Linear(embedding_dim, embedding_dim)
+        self.multimodal_embedder = nn.Linear(attention_dim, embedding_dim)
 
         # Decoder
         self.decoder = nn.GRU(
@@ -141,13 +86,15 @@ class CrossAttnRNN(pl.LightningModule):
 
         # Encode input data
         gtrend_encoding = self.trend_encoder(gtrends.permute(0, 2, 1))
-        img_encoding = self.image_encoder(images)  ##TODO: Currently only Inceptionv3 works
-        dummy_encoding = self.temp_encoder(temporal_features)  ##TODO: Change name
-        attribute_encoding = self.attribute_encoder(categories, colors, fabrics, stores)
+        img_encoding = self.image_encoder(images)
+        temporal_encoding = self.temporal_encoder(temporal_features)
+        attribute_encoding = self.attribute_encoder(categories, colors, fabrics)
+
+        condensed_img = self.img_linear(self.img_pool(img_encoding).flatten(1))
 
         if self.use_trends:
             # Self-attention over the temporal features (this filters initial noise from the time series features)
-            gtrend_encoding, trend_self_attn_weights = self.ts_self_attention(
+            gtrend_encoding, trend_self_attn_weights = self.trend_self_attention(
                 gtrend_encoding.permute(1, 0, 2),
                 gtrend_encoding.permute(1, 0, 2),
                 gtrend_encoding.permute(1, 0, 2),
@@ -156,35 +103,31 @@ class CrossAttnRNN(pl.LightningModule):
         # Predictions vector (will contain all forecasts)
         outputs = torch.zeros(bs, self.out_len, 1).to(self.device)
 
-        # Save attention weights
-        img_attn_weights, trend_attn_weights, multimodal_attn_weights = [], [], []
+        # # Fuse static features together
+        # static_feature_fusion = self.static_feature_encoder(img_encoding, attribute_encoding, temporal_encoding)
+
+        # Predictions vector (will contain all forecasts)
+        outputs = torch.zeros(bs, self.out_len, 1).to(self.device)
 
         # Init initial decoder status and outputs
         decoder_hidden = torch.zeros(1, bs, self.hidden_dim).to(self.device)
         decoder_output = torch.zeros(bs, 1, 1).to(self.device)
-        for t in range(self.out_len):
-            # Image attention
-            if self.use_img:
-                attended_img_encoding, img_alpha = self.img_attention(
-                    img_encoding, decoder_hidden
-                )
-                # Reduce image features into one via summing
-                attended_img_encoding = attended_img_encoding.sum(1)
-                img_attn_weights.append(img_alpha)
 
+        decoder_out = None
+        # Autoregressive rolling forecast
+        for t in range(self.out_len):
             # Temporal (Exogenous Gtrends) Attention
             if self.use_trends:
-                attended_trend_encoding, trend_alpha = self.ts_attention(
+                attended_trend_encoding, trend_alpha = self.trend_attention(
                     gtrend_encoding.permute(1, 0, 2), decoder_hidden
                 )
                 attended_trend_encoding = self.trend_linear(attended_trend_encoding.view(bs, -1))
-                trend_attn_weights.append(trend_alpha)
 
             # Build multimodal input based on specified input modalities
-            mm_in = dummy_encoding.unsqueeze(0)
+            mm_in = temporal_encoding.unsqueeze(0)
             if self.use_img:
-                mm_in = torch.cat([mm_in, attended_img_encoding.unsqueeze(0)])
-            if self.use_att:
+                mm_in = torch.cat([mm_in, condensed_img.unsqueeze(0)])
+            if self.use_attribute:
                 mm_in = torch.cat([mm_in, attribute_encoding.unsqueeze(0)])
             if self.use_trends:
                 mm_in = torch.cat([mm_in, attended_trend_encoding.unsqueeze(0)])
@@ -195,16 +138,8 @@ class CrossAttnRNN(pl.LightningModule):
                 mm_in, decoder_hidden
             )
 
-            # Save alphas
-            multimodal_attn_weights.append(multimodal_alpha)
-
-            # Gate attention output (WIP)
-            ##TODO:
-
-            # Reduce (residual) attention weighted multimodal input via summation and then embed
-            final_embedding = mm_in + attended_multimodal_encoding  # resiual learning
             final_encoder_output = self.multimodal_embedder(
-                final_embedding.sum(1)  # reduce sum
+                attended_multimodal_encoding.sum(1)  # reduce sum
             )  # BS x 1 x D
 
             # Concatenate last prediction to the encoder output -> autoregression
@@ -222,7 +157,7 @@ class CrossAttnRNN(pl.LightningModule):
             if self.use_teacher_forcing and teach_forcing and ts is not None:
                 decoder_output = ts[:, t].unsqueeze(-1).unsqueeze(-1)
 
-        return outputs, img_attn_weights, multimodal_attn_weights
+        return outputs
 
     def configure_optimizers(self):
         optimizer = Adafactor(
@@ -236,12 +171,13 @@ class CrossAttnRNN(pl.LightningModule):
         return [optimizer]
 
     def on_train_epoch_start(self):
-        self.use_teacher_forcing = True  # Allow for teacher forcing when training model
+        ##TODO: Set requires_grad for loss when teacher is applied for every item in batch
+        self.use_teacher_forcing = False  # Allow for teacher forcing when training model
 
     def training_step(self, train_batch, batch_idx):
         (ts, categories, colors, fabrics, stores, temporal_features, gtrends), images = train_batch
 
-        forecasted_sales, _, _ = self.forward(
+        forecasted_sales = self.forward(
             ts,
             categories,
             colors,
@@ -262,7 +198,7 @@ class CrossAttnRNN(pl.LightningModule):
     def validation_step(self, test_batch, batch_idx):
         (ts, categories, colors, fabrics, stores, temporal_features, gtrends), images = test_batch
 
-        forecasted_sales, _, _ = self.forward(
+        forecasted_sales = self.forward(
             ts,
             categories,
             colors,

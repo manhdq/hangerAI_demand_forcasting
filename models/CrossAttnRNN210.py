@@ -8,7 +8,7 @@ from fairseq.optim.adafactor import Adafactor
 
 from .modules import ImageEncoder, TemporalEncoder, AttributeEncoder, \
                     GTrendEncoder, FusionNetwork, PositionalEncoding, \
-                    AdditiveAttention
+                    TSEncoder, AdditiveAttention
 
 
 class CrossAttnRNN(pl.LightningModule):
@@ -19,16 +19,16 @@ class CrossAttnRNN(pl.LightningModule):
         hidden_dim,
         use_img,
         use_attribute,
+        use_trends,
         out_len,
         cat_dict,
         col_dict,
         fab_dict,
         trend_len, 
         num_trends,
-        use_encoder_mask,
-        gpu_num,
         use_teacher_forcing=False,
         teacher_forcing_ratio=0.5,
+        lr=0.001,
     ):
         super().__init__()
         self.teacher_forcing_ratio = teacher_forcing_ratio
@@ -38,24 +38,34 @@ class CrossAttnRNN(pl.LightningModule):
         self.embedding_dim = embedding_dim
         self.use_img = use_img
         self.use_attribute = use_attribute
-        self.autoregressive = 1  # Using autoregressive as default
+        self.use_trends = use_trends
+        self.lr = lr
 
         # Encoders
+        self.trend_encoder = TSEncoder(num_trends, embedding_dim)
         self.image_encoder = ImageEncoder(fine_tune=False)
         self.temporal_encoder = TemporalEncoder(embedding_dim)
-        self.attribute_encoder = AttributeEncoder(embedding_dim, cat_dict, col_dict, fab_dict, gpu_num)
-        # self.gtrend_encoder = GTrendEncoder(out_len, hidden_dim, use_encoder_mask, trend_len, num_trends, gpu_num)
+        # self.attribute_encoder = AttributeEncoder(embedding_dim, cat_dict, col_dict, fab_dict, gpu_num)
+        self.attribute_encoder = AttributeEncoder(
+            len(cat_dict) + 1,
+            len(col_dict) + 1,
+            len(fab_dict) + 1,
+            embedding_dim
+        )
         self.static_feature_encoder = FusionNetwork(embedding_dim, hidden_dim, use_img, use_attribute)
         self.ts_embedder = nn.GRU(1, embedding_dim, batch_first=True)
 
-        # # Attention module
+        # Attention module
         # self.img_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
+        self.trend_self_attention = nn.MultiheadAttention(embedding_dim, num_heads=4, dropout=0.1)
+        self.trend_attention = AdditiveAttention(embedding_dim, hidden_dim, attention_dim)
+        self.trend_linear = nn.Linear(trend_len*attention_dim, embedding_dim)
 
         # Decoder
         self.decoder_gru = nn.GRU(
             input_size=hidden_dim,
             hidden_size=hidden_dim,
-            num_layers= 3,
+            num_layers= 1,
             batch_first=True
         )
 
@@ -78,11 +88,21 @@ class CrossAttnRNN(pl.LightningModule):
         # B = X.shape[0]
         predictions = []  # List of store predictions of dynamically unrolled outputs.
 
+        bs = X.shape[0]
+
         # Encode statuc input data
         img_encoding = self.image_encoder(images)
+        gtrend_encoding = self.trend_encoder(gtrends.permute(0, 2, 1))
         temporal_encoding = self.temporal_encoder(temporal_features)
         attribute_encoding = self.attribute_encoder(categories, colors, fabrics)
-        # gtrend_encoding = self.gtrend_encoder(gtrends)
+
+        if self.use_trends:
+            # Self-attention over the temporal features (this filters initial noise from the time series features)
+            gtrend_encoding, trend_self_attn_weights = self.trend_self_attention(
+                gtrend_encoding.permute(1, 0, 2),
+                gtrend_encoding.permute(1, 0, 2),
+                gtrend_encoding.permute(1, 0, 2),
+            )
         
         # Fuse static features together
         static_feature_fusion = self.static_feature_encoder(img_encoding, attribute_encoding, temporal_encoding)
@@ -91,17 +111,33 @@ class CrossAttnRNN(pl.LightningModule):
         ts_input = X[:, 0, :].unsqueeze(-1)  # Only the first window is selected for succesive autoregressive forecasts
         ts_features = self.ts_embedder(ts_input)[1].permute(1, 0, 2)
 
-        x = static_feature_fusion.unsqueeze(1) + ts_features
+        # Init decoder status and outputs
+        decoder_hidden = torch.zeros(1, bs, self.hidden_dim).to(self.device)
+        # decoder_output = torch.zeros(bs, 1, 1).to(self.device)
 
-        decoder_out, decoder_hidden = self.decoder_gru(x)
-        pred = self.decoder_fc(decoder_out).squeeze(-1)
+        # x = static_feature_fusion.unsqueeze(1) + ts_features
 
-        # Insert the first prediction
-        predictions.append(pred)
+        # decoder_out, decoder_hidden = self.decoder_gru(x)
+        # decoder_output = self.decoder_fc(decoder_out)
 
+        # # Insert the first prediction
+        # predictions.append(decoder_output.squeeze(-1))
+
+        decoder_out = None
         # Autoregressive rolling forecast
-        for t in range(1, self.out_len):
-            x = decoder_out
+        for t in range(self.out_len):    
+            if t == 0:
+                x = static_feature_fusion.unsqueeze(1) + ts_features
+            else:
+                x = decoder_out
+
+            # Temporal (Exogenous Gtrends) Attention
+            if self.use_trends:
+                attened_trend_encoding, trend_alpha = self.trend_attention(
+                    gtrend_encoding.permute(1, 0, 2), decoder_hidden
+                )
+                attened_trend_encoding = self.trend_linear(attened_trend_encoding.view(bs, -1))
+                x = x + attened_trend_encoding.unsqueeze(1)
 
             #### Autoregressive decoding
             decoder_out, decoder_hidden = self.decoder_gru(x, decoder_hidden)
@@ -129,6 +165,10 @@ class CrossAttnRNN(pl.LightningModule):
             warmup_init=True,
             lr=None,
         )
+        # optimizer = Adam(
+        #     self.parameters(),
+        #     lr=self.lr,
+        # )
 
         return [optimizer]
 
@@ -149,7 +189,8 @@ class CrossAttnRNN(pl.LightningModule):
         return macs * 2 / 10**9, params / 10**6
 
     def on_train_epoch_start(self):
-        self.use_teacher_forcing = True  # Allow for teacher forcing when training model
+        ##TODO: Set requires_grad for loss when teacher is applied for every item in batch
+        self.use_teacher_forcing = False  # Allow for teacher forcing when training model
 
     def training_step(self, train_batch, batch_idx):
         (X, y, categories, colors, fabrics, stores, temporal_features, gtrends), images = train_batch
