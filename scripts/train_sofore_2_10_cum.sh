@@ -1,7 +1,8 @@
 python train_dl.py \
             --dataset_path /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/data/visuelle2 \
-            --task_mode 0 \
-            --batch_size 2 \
+            --task_mode 1 \
+            --cumulative 1 \
+            --batch_size 4 \
             --quick_debug \
             --use_att \
             --use_img \
@@ -10,4 +11,4 @@ python train_dl.py \
             # --use_wandb \
             # --wandb_entity manhdo \
             # --wandb_project GTM2 \
-            # --wandb_run train_sofore_2_1 \
+            # --wandb_run train_sofore_2_10 \

@@ -49,13 +49,25 @@ def run(args):
     )
 
     demand = bool(args.demand)
+    cumulative = bool(args.cumulative)
     img_folder = os.path.join(args.dataset_path, 'images')
     if demand:
-        visuelle_pt_train = "visuelle2_train_processed_demand.pt"  
-        visuelle_pt_test = "visuelle2_test_processed_demand.pt"  
+        if cumulative:
+            visuelle_pt_train = "visuelle2_train_processed_demand_cumulative.pt"  
+            visuelle_pt_test = "visuelle2_test_processed_demand_cumulative.pt"
+        else:
+            visuelle_pt_train = "visuelle2_train_processed_demand.pt"  
+            visuelle_pt_test = "visuelle2_test_processed_demand.pt"
+    elif cumulative:
+        visuelle_pt_train = "visuelle2_train_processed_stfore_cumulative.pt"
+        visuelle_pt_test = "visuelle2_test_processed_stfore_cumulative.pt"
     else:
-        visuelle_pt_train = "visuelle2_train_processed_stfore.pt"
-        visuelle_pt_test = "visuelle2_test_processed_stfore.pt"
+        if cumulative:
+            visuelle_pt_train = "visuelle2_train_processed_stfore_cumulative.pt"
+            visuelle_pt_test = "visuelle2_test_processed_stfore_cumulative.pt"
+        else:
+            visuelle_pt_train = "visuelle2_train_processed_stfore.pt"
+            visuelle_pt_test = "visuelle2_test_processed_stfore.pt"
 
     # Create (PyTorch) dataset objects
     trainset = Visuelle2(
@@ -67,6 +79,7 @@ def run(args):
         fab_dict=fab_dict,
         trend_len=args.trend_len,     ##TODO: Careful this with pre-created one and the new one   
         demand=demand,
+        cumulative=cumulative,
         local_savepath=os.path.join(args.dataset_path, visuelle_pt_train)
     )
     testset = Visuelle2(
@@ -78,6 +91,7 @@ def run(args):
         fab_dict=fab_dict,
         trend_len=args.trend_len,        
         demand=demand,
+        cumulative=cumulative,
         local_savepath=os.path.join(args.dataset_path, visuelle_pt_test)
     )
 
@@ -125,10 +139,15 @@ def run(args):
                 embedding_dim=args.embedding_dim,
                 hidden_dim=args.hidden_dim,
                 use_img=args.use_img,
+                use_trends=args.use_trends,
+                use_attribute=args.use_attribute,
+                apply_concatenate=args.apply_concatenate,
                 out_len=args.output_len,
                 cat_dict=cat_dict,
                 col_dict=col_dict,
                 fab_dict=fab_dict,
+                trend_len=args.trend_len,
+                num_trends=args.num_trends,
             )
         else:  # task mode == 1
             model = Model210(
@@ -193,6 +212,7 @@ if __name__ == "__main__":
     parser.add_argument("--num_workers", type=int, default=2)
     parser.add_argument("--demand", type=int, default=0,
                 help="Boolean variable to optionally use the dataset for the new product demand forecasting task (forecasting without a known past)")
+    parser.add_argument("--cumulative", type=int, default=0)
     parser.add_argument("--quick_debug", action="store_true")
 
     # Model specific arguments
@@ -202,10 +222,10 @@ if __name__ == "__main__":
     parser.add_argument("--hidden_dim", type=int, default=128)
     parser.add_argument("--output_len", type=int, default=10)
     parser.add_argument("--use_trends", action="store_true")
-    parser.add_argument("--use_att", action="store_true")
     parser.add_argument("--num_trends", type=int, default=3)
     parser.add_argument("--use_img", action="store_true")
     parser.add_argument("--use_attribute", action="store_true")
+    parser.add_argument("--apply_concatenate", action="store_true")
     parser.add_argument("--task_mode", type=int, default=0, help="0-->2-1 - 1-->2-10")
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--gpu_num", type=int, default=0)  ##TODO: modify this

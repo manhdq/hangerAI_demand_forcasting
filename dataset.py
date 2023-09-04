@@ -23,6 +23,7 @@ class Visuelle2:
                 fab_dict,
                 trend_len,
                 demand,
+                cumulative,
                 local_savepath):
         self.sales_df = sales_df
         self.gtrends = gtrends
@@ -32,6 +33,7 @@ class Visuelle2:
         self.trend_len = trend_len
         self.img_root = img_root
         self.demand = demand
+        self.cumulative = cumulative
 
         print("Loading dataset...")
         if os.path.isfile(local_savepath):
@@ -78,14 +80,15 @@ class Visuelle2:
         for i, ts in enumerate(sales):
             item_stock = restocks[i]
             if ts.sum() <= item_stock:  # If it's under ok
-                clean_ts.append(ts)
                 split_idx.append(0)  ##TODO: Careful this
             else:
                 # Check when the sales go over the total and drop those values
                 sidx = np.where(ts.cumsum() > item_stock)[0][0]
                 ts[ts.cumsum() > item_stock] = 0
-                clean_ts.append(ts)
                 split_idx.append(sidx)
+            if self.cumulative:
+                ts = ts.cumsum()
+            clean_ts.append(ts)
             
         clean_ts, split_idx = np.array(clean_ts), torch.tensor(split_idx)
         self.split_idx = split_idx
@@ -111,6 +114,8 @@ class Visuelle2:
             ##TODO: priority. Understand this
             ts = self.sales_df.copy(deep=True).iloc[:, -12:].values
             ts = torch.tensor(ts).type(torch.float32)
+            if self.cumulative:
+                ts = ts.cumsum(dim=-1)
         else:
             X, y = self.frame_series()
 

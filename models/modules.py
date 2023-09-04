@@ -19,7 +19,7 @@ class ImageEncoder(nn.Module):
         # # Fine tune resnet
         if fine_tune:
             for c in list(self.resnet.children())[6:]:
-                for p in c.parameterss():
+                for p in c.parameters():
                     p.requires_grad = True
 
     def forward(self, images):

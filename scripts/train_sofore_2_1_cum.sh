@@ -1,6 +1,7 @@
 python train_dl.py \
             --dataset_path /home/ubuntu/Documents/working/Hangers.AI/DemandFocasting/data/visuelle2 \
             --task_mode 0 \
+            --cumulative 1 \
             --batch_size 2 \
             --quick_debug \
             --use_att \
